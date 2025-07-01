@@ -1,0 +1,25 @@
+package ui
+
+var status map[string]string
+
+templ Avatar(src string, username string) {
+	<div
+		class="relative w-6 h-6"
+	>
+		<!-- Actual Avatar Image -->
+		<div class="absolute inset-0 avatar z-10">
+			<div class="w-6 h-6 rounded-full overflow-hidden">
+				<img
+					src={ src }
+					class="w-full h-full object-cover hidden"
+					onload="this.classList.remove('hidden'); this.nextElementSibling.classList.add('hidden')"
+					onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden')"
+				/>
+				<!-- Placeholder shown by default, hidden when image loads -->
+				<div class="bg-neutral text-neutral-content w-full h-full rounded-full flex items-center justify-center">
+					<span class="text-3xl">{ username[0] }</span>
+				</div>
+			</div>
+		</div>
+	</div>
+}

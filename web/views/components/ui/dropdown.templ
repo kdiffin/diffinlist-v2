@@ -1,0 +1,13 @@
+package ui
+
+templ DropdownContent(className string) {
+	<ul tabindex="0" class={ className + " dropdown-content z-1 rounded-box	 menu p-2  bg-base-200  w-40" }>
+		{ children... }
+	</ul>
+}
+
+templ DropdownTrigger(className string) {
+	<div role="button" tabindex="0" class={ className }>
+		{ children... }
+	</div>
+}

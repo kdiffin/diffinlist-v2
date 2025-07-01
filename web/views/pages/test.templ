@@ -1,0 +1,319 @@
+package pages
+
+import (
+	"diffinlist/web/views/components/ui"
+	"diffinlist/web/views/layouts"
+)
+
+templ TestPage() {
+	@layouts.TestPage() {
+		<div class="  grid-cols-12 h-full   grid  gap-8">
+			<div class="col-span-3  h-full">
+				@TestLeftSidebar()
+			</div>
+			<!-- Test Header -->
+			<div class="col-span-9 flex flex-col items-center p-8 ">
+				<div class="max-w-4xl">
+					<div class="card bg-base-100 card-border border-2 border-primary  p-6 mb-4">
+						<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-2">
+							<div>
+								<h1 class="card-title text-4xl font-bold mb-1">Mock Test: </h1>
+								<p class="text-base-content/80 mt-2">This test contains a variety of question types. Time limit is enforced. Please do not discuss answers in the test discussion.</p>
+								<div class="flex mt-4 flex-wrap gap-2 text-base-content/70 mb-1">
+									<span class="badge badge-primary ">Author: otk guven</span>
+									<span class="badge badge-accent ">Grade: 11</span>
+									<span class="badge badge-info ">Uploaded: 2025-06-15</span>
+									<span class="badge badge-secondary ">Sektor: Azeri</span>
+									<span class="badge badge-secondary ">Sektor: Russian</span>
+									<span class="badge badge-neutral ">Type: Mock</span>
+									<span class="badge badge-warning ">Time Limit: 90 min</span>
+									<span class="badge badge-accent ">Time Limit: 90 people took this test</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Social: Test Discussion (no spoilers) -->
+					<!-- Questions List -->
+					<div class="flex flex-col gap-8">
+						@ClosedQuestion()
+						// @OpenQuestion()
+						// @CorrespondanceQuestion()
+						// @SituationQuestion()
+						// @MultipleChoiceQuestion()
+					</div>
+					@Discussion()
+				</div>
+			</div>
+		</div>
+	}
+}
+
+templ TestLeftSidebar() {
+	<aside class="flex flex-col gap-2 p-4  h-full bg-base-200  sticky top-4">
+		<div class="card card-border bg-base-100">
+			<div class="border-b-2 border-b-base-200 p-6 text-xl">
+				<span class="font-semibold">Math Blok</span>
+			</div>
+			<div class="card-body">
+				<ul class="menu menu-lg gap-2 ">
+					<li>
+						<a class="menu-item">
+							@ui.TestCheckIcon("")
+							Question 1
+						</a>
+					</li>
+					<li>
+						<a class="menu-item">
+							@ui.TestCheckIcon("")
+							Question 2
+						</a>
+					</li>
+					<li>
+						<a class="menu-item">
+							@ui.TestCheckIcon("")
+							Question 3
+						</a>
+					</li>
+					<li>
+						<a class="menu-item">
+							@ui.TestCheckIcon("")
+							Question 4
+						</a>
+					</li>
+					<li>
+						<a class="menu-item">
+							@ui.TestCheckIcon("")
+							Question 5
+						</a>
+					</li>
+					<li>
+						<a class="menu-item">
+							@ui.TestCheckIcon("")
+							Question 6
+						</a>
+					</li>
+					<li>
+						<a class="menu-item">
+							@ui.TestCheckIcon("")
+							Question 7
+						</a>
+					</li>
+					<li>
+						<a class="menu-item">
+							@ui.TestCheckIcon("")
+							Question 8
+						</a>
+					</li>
+					<li class="mt-12">
+						<a class="btn btn-outline w-full">New Diff</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</aside>
+}
+
+templ Discussion() {
+	<div class="card bg-base-100 card-border border-2 border-primary p-4 mb-2">
+		<div class="flex items-center gap-2 mb-2">
+			<h2 class="font-semibold text-lg">Test Discussion</h2>
+			<span class="badge badge-outline badge-info">No spoilers</span>
+		</div>
+		<div class="flex flex-col gap-3">
+			<div class="chat chat-start">
+				<div class="chat-image avatar">
+					<div class="w-8 rounded-full">
+						<img src="/assets/images/goku.jpg"/>
+					</div>
+				</div>
+				<div class="chat-bubble chat-bubble-primary">This test was really helpful!</div>
+			</div>
+			<div class="chat chat-end">
+				<div class="chat-image avatar">
+					<div class="w-8 rounded-full">
+						<img src="/assets/images/goku.jpg"/>
+					</div>
+				</div>
+				<div class="chat-bubble chat-bubble-secondary">Agreed, but the last question was tough.</div>
+			</div>
+			<!-- Add new message -->
+			<form class="flex items-center gap-2 mt-2">
+				<input type="text" class="input input-bordered flex-1" placeholder="Add a comment (no spoilers)"/>
+				<input type="file" class="file-input file-input-sm file-input-bordered"/>
+				<button class="btn btn-primary btn-sm">Send</button>
+			</form>
+		</div>
+	</div>
+}
+
+templ ClosedQuestion() {
+	<div class="card bg-base-100 card-border border-2 border-primary p-4">
+		<div class="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+			<div>
+				<div class="text-xs text-base-content/60 mb-1">Subject: Math &rarr; Topic: Geography</div>
+				<div class="font-semibold">1. What is the capital of France?</div>
+			</div>
+			<div class="badge badge-outline badge-info">Closed Ended</div>
+		</div>
+		<div class="flex flex-col gap-2">
+			<label class="flex items-center gap-2">
+				<input type="radio" name="closed-1" class="radio radio-primary"/>
+				<span>Paris</span>
+			</label>
+			<label class="flex items-center gap-2">
+				<input type="radio" name="closed-1" class="radio radio-primary"/>
+				<span>London</span>
+			</label>
+			<label class="flex items-center gap-2">
+				<input type="radio" name="closed-1" class="radio radio-primary"/>
+				<span>Berlin</span>
+			</label>
+			<label class="flex items-center gap-2">
+				<input type="radio" name="closed-1" class="radio radio-primary"/>
+				<span>Rome</span>
+			</label>
+		</div>
+		<!-- Social: Question Comments -->
+		<div class="mt-4">
+			@QuestionComments()
+		</div>
+	</div>
+}
+
+templ OpenQuestion() {
+	<div class="card bg-base-100 card-border border-2 border-primary p-4">
+		<div class="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+			<div>
+				<div class="text-xs text-base-content/60 mb-1">Subject: Biology &rarr; Topic: Photosynthesis</div>
+				<div class="font-semibold">2. Explain the process of photosynthesis.</div>
+			</div>
+			<div class="badge badge-outline badge-success">Open Ended</div>
+		</div>
+		<textarea class="textarea textarea-bordered w-full mb-2" placeholder="Type your answer..."></textarea>
+		<div class="flex gap-2 mb-2">
+			<button class="btn btn-info btn-sm">Check with AI</button>
+			<button class="btn btn-outline btn-sm">Show Answer Key</button>
+		</div>
+		<div class="mt-2">
+			@QuestionComments()
+		</div>
+	</div>
+}
+
+templ CorrespondanceQuestion() {
+	<div class="card bg-base-100 card-border border-2 border-primary p-4">
+		<div class="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+			<div>
+				<div class="text-xs text-base-content/60 mb-1">Subject: Geography &rarr; Topic: Capitals</div>
+				<div class="font-semibold">3. Match the following countries to their capitals:</div>
+			</div>
+			<div class="badge badge-outline badge-warning">Correspondance</div>
+		</div>
+		<div class="grid grid-cols-2 gap-4">
+			<div>
+				<div class="mb-2">Countries</div>
+				<ul class="flex flex-col gap-2">
+					<li>France</li>
+					<li>Germany</li>
+					<li>Italy</li>
+				</ul>
+			</div>
+			<div>
+				<div class="mb-2">Capitals</div>
+				<ul class="flex flex-col gap-2">
+					<li><input class="input input-bordered input-sm w-full" placeholder="Match for France"/></li>
+					<li><input class="input input-bordered input-sm w-full" placeholder="Match for Germany"/></li>
+					<li><input class="input input-bordered input-sm w-full" placeholder="Match for Italy"/></li>
+				</ul>
+			</div>
+		</div>
+		<div class="mt-4">
+			@QuestionComments()
+		</div>
+	</div>
+}
+
+templ SituationQuestion() {
+	<div class="card bg-base-100 card-border border-2 border-primary p-4">
+		<div class="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+			<div>
+				<div class="text-xs text-base-content/60 mb-1">Subject: Math &rarr; Topic: Word Problems</div>
+				<div class="font-semibold">4. Read the scenario and answer the questions below:</div>
+			</div>
+			<div class="badge badge-outline badge-error">Situation</div>
+		</div>
+		<p class="mb-2">A train leaves City A at 8:00 AM traveling at 60 km/h. City B is 180 km away. Another train leaves City B at 9:00 AM traveling toward City A at 90 km/h. When do the trains meet?</p>
+		<ul class="flex flex-col gap-2">
+			<li>1) At what time do the trains meet?</li>
+			<li>2) How far from City A do they meet?</li>
+		</ul>
+		<textarea class="textarea textarea-bordered w-full mt-2" placeholder="Type your answers..."></textarea>
+		<div class="mt-4">
+			@QuestionComments()
+		</div>
+	</div>
+}
+
+templ MultipleChoiceQuestion() {
+	<div class="card bg-base-100 card-border border-2 border-primary p-4">
+		<div class="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+			<div>
+				<div class="text-xs text-base-content/60 mb-1">Subject: Math &rarr; Topic: Prime Numbers</div>
+				<div class="font-semibold">5. Which numbers are prime?</div>
+			</div>
+			<div class="badge badge-outline badge-primary">Multiple Choice</div>
+		</div>
+		<div class="flex flex-col gap-2">
+			<label class="flex items-center gap-2">
+				<input type="checkbox" class="checkbox checkbox-primary"/>
+				<span>2</span>
+			</label>
+			<label class="flex items-center gap-2">
+				<input type="checkbox" class="checkbox checkbox-primary"/>
+				<span>3</span>
+			</label>
+			<label class="flex items-center gap-2">
+				<input type="checkbox" class="checkbox checkbox-primary"/>
+				<span>4</span>
+			</label>
+			<label class="flex items-center gap-2">
+				<input type="checkbox" class="checkbox checkbox-primary"/>
+				<span>5</span>
+			</label>
+		</div>
+		<div class="mt-4">
+			@QuestionComments()
+		</div>
+	</div>
+}
+
+templ QuestionComments() {
+	<div class="flex flex-col gap-2">
+		<button class="btn btn-xs btn-outline w-fit" onclick="this.nextElementSibling.classList.toggle('hidden')">Show Comments (Spoilers)</button>
+		<div class="hidden ml-4">
+			<!-- Example nested replies -->
+			<div class="chat chat-start">
+				<div class="chat-image avatar">
+					<div class="w-6 rounded-full">
+						<img src="/assets/images/goku.jpg"/>
+					</div>
+				</div>
+				<div class="chat-bubble chat-bubble-info">My answer was Paris.</div>
+			</div>
+			<div class="chat chat-end">
+				<div class="chat-image avatar">
+					<div class="w-6 rounded-full">
+						<img src="/assets/images/goku.jpg"/>
+					</div>
+				</div>
+				<div class="chat-bubble chat-bubble-success">Same! Here's why...</div>
+			</div>
+			<!-- Add reply -->
+			<form class="flex items-center gap-2 mt-2">
+				<input type="text" class="input input-bordered flex-1" placeholder="Add a reply (spoiler)"/>
+				<input type="file" class="file-input file-input-xs file-input-bordered"/>
+				<button class="btn btn-primary btn-xs">Reply</button>
+			</form>
+		</div>
+	</div>
+}

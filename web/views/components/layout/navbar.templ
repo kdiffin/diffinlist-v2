@@ -1,0 +1,52 @@
+package layout
+
+import ui "diffinlist/web/views/components/ui"
+
+templ Navbar() {
+	<div class="   flex justify-center items-center    shadow-sm">
+		<div class="container navbar 	">
+			<div class="flex-1">
+				<a class="btn btn-ghost text-xl">diffinlist</a>
+			</div>
+			<div class="flex  items-center">
+				// mobile
+				<div class="dropdown  md:hidden block dropdown-end">
+					@ui.DropdownTrigger("btn btn-ghost btn-circle") {
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path> </svg>
+					}
+					@ui.DropdownContent("") {
+						<li><a>Homepage</a></li>
+						<li><a>Portfolio</a></li>
+						<li><a>About</a></li>
+					}
+				</div>
+				<div class="flex-none">
+					<ul class="menu menu-horizontal px-1">
+						<li><a>Dashboard</a></li>
+						<li><a>Tests</a></li>
+					</ul>
+				</div>
+				<div class="dropdown dropdown-end">
+					@ui.DropdownTrigger("btn btn-ghost bg-base-100 btn-circle avatar") {
+						<div class="w-10 rounded-full">
+							<img
+								alt="Tailwind CSS Navbar component"
+								src="/assets/images/goku.jpg"
+							/>
+						</div>
+					}
+					@ui.DropdownContent("") {
+						<li>
+							<a href="/" class="justify-between">
+								Profile
+								<span class="badge">New</span>
+							</a>
+						</li>
+						<li><a href="//">Settings</a></li>
+						<li><a>Logout</a></li>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+}

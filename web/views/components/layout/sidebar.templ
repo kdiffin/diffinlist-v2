@@ -1,0 +1,56 @@
+package layout
+
+templ Sidebar() {
+	<aside class="bg-base-300  hidden h-screen w-[12%] min-w-[230px] flex-col items-center b py-4  md:flex">
+		<div class="border-b-2 w-full mb-4 border-base-100">
+			<div class="pb-4 ">
+				<a
+					class="flex items-center justify-center gap-1 text-xl
+          font-semibold text-gray-300 "
+					href="/"
+				>
+					<p class="mb-[3px] ">diffinlist</p>
+				</a>
+			</div>
+		</div>
+		<nav class="  subtle-scrollbar  max-h-[80vh]   w-full overflow-y-scroll px-5  space-y-4 ">
+			<a
+				class="flex w-full outline-none outline-neutral-900 items-center gap-2  text-lg text-base-content/70 hover:test-base-content "
+				href="/"
+			>
+				<p>Home</p>
+			</a>
+			<a
+				class="flex w-full outline-none outline-neutral-900 items-center gap-2  text-lg text-base-content/70 hover:test-base-content "
+				href="/search"
+			>
+				<p>Search</p>
+			</a>
+			<a
+				class="
+                    flex w-full outline-none outline-neutral-900 items-center gap-2  text-lg text-base-content/70 hover:test-base-content "
+				href="/?"
+			>
+				<button class=" flex items-center gap-2">Sign in</button>
+			</a>
+			<a
+				class="flex w-full outline-none outline-neutral-900 items-center gap-2  text-lg text-base-content/70 hover:test-base-content "
+				href="/?showSettings=true"
+			>
+				<p>Settings</p>
+			</a>
+			<div class="my-6 w-full  border-t border-t-neutral-800 "></div>
+			<div class=" text-base-content/70  sticky top-0 flex w-full cursor-pointer items-center justify-between py-2  text-lg " type="button" aria-controls="radix-:R6d56:" aria-expanded="false" data-state="closed">
+				<p>Playlists</p>
+			</div>
+			<div data-state="closed " id="radix-:R6d56:" hidden="" class="mt-4 px-2" style=""></div>
+		</nav>
+		<div class="my-6 w-full  mt-auto border-t border-t-neutral-800 ">
+			<div class="  border-t-neutral-400  text-center ">
+				<div class=" w-full border-t border-t-neutral-700 "></div>
+				<input autocomplete="off" disabled="" class="   bg-none opacity-0 "/>
+				<button class="rounded-sm btn p-2  px-3 text-base-content/70">+ create playlist</button>
+			</div>
+		</div>
+	</aside>
+}

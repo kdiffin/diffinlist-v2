@@ -1,0 +1,42 @@
+package layouts
+
+import layout "diffinlist/web/views/components/layout"
+
+templ Base() {
+	<!DOCTYPE html>
+	<html lang="en" data-theme="emerald" class="h-screen">
+		<head>
+			<meta charset="utf-8"/>
+			<meta name="viewport" content="width=device-width,initial-scale=1"/>
+			<title>Go Blueprint Hello</title>
+			<link href="/assets/css/output.css" rel="stylesheet"/>
+			<script src="/assets/js/htmx.min.js.gz"></script>
+		</head>
+		<body class="bg-base-100 flex  h-screen flex-row   ">
+			@layout.Sidebar()
+			<main class="h-screen bg-base-100 overflow-y-auto w-full">
+				{ children... }
+			</main>
+			// @layout.Footer()
+		</body>
+	</html>
+}
+
+templ TestPage() {
+	<!DOCTYPE html>
+	<html lang="en" data-theme="emerald" class="h-screen">
+		<head>
+			<meta charset="utf-8"/>
+			<meta name="viewport" content="width=device-width,initial-scale=1"/>
+			<title>Go Blueprint Hello</title>
+			<link href="/assets/css/output.css" rel="stylesheet"/>
+			<script src="/assets/js/htmx.min.js.gz"></script>
+		</head>
+		<body class="grid   grid-rows-[auto_1fr_auto] min-h-screen ">
+			@layout.Navbar()
+			<main>
+				{ children... }
+			</main>
+		</body>
+	</html>
+}

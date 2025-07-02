@@ -1,15 +1,36 @@
 package pages
 
 import "diffinlist/web/views/layouts"
+import "diffinlist/web/views/components/ui"
 
 templ Index() {
 	@layouts.Base() {
 		<div>
-			<ul class="menu menu-xl rounded-box w-56">
-				<li><a href="/auth">auth page</a></li>
-				<li><a href="/dashboard">dashboard</a></li>
-				<li><a href="/test">test</a></li>
-			</ul>
+			<div class="bg-base-200 flex   items-center justify-center  px-8 py-14 sm:justify-normal lg:px-14 ">
+				<div class="flex flex-col items-center  sm:flex-row sm:gap-8">
+					@ui.Avatar("/assets/images/goku.jpg", "goku", "w-40 h-40")
+					<div class="mt-10 flex  flex-col gap-5">
+						<p class="text-5xl  font-semibold ">Welcome user</p>
+						<div class=" text-base-content/70">
+							<p class="flex items-center gap-2">
+								This project is open source!!
+							</p>
+							<p class=" flex items-center gap-2">
+								You can view the source code here:
+								<a target="blank" href="https://github.com/kdiffin/diffinlist-v2">
+									//   <FaGithub size={18} >
+									github
+								</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class=" flex flex-col  justify-center p-8  gap-10">
+				<div class="w-full ">
+					@PlaylistsTable()
+				</div>
+			</div>
 		</div>
 	}
 }

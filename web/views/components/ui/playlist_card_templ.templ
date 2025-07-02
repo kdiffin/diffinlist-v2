@@ -1,0 +1,17 @@
+package ui
+
+templ PlaylistCard(title string, description string, imageUrl string, source string, trackCount int) {
+	<div class="card w-96 bg-base-200 ">
+		<figure class="px-10 pt-10">
+			<img src={ imageUrl } alt={ title } class="rounded-xl w-full h-48 object-cover"/>
+		</figure>
+		<div class="card-body items-center text-center">
+			<h2 class="card-title text-2xl font-bold">{ title }</h2>
+			<p class="text-base-content/70">{ description }</p>
+			<div class="flex justify-between w-full mt-4">
+				<span class="badge badge-outline">{ source }</span>
+				<span class="badge badge-secondary">{ trackCount } tracks</span>
+			</div>
+		</div>
+	</div>
+}

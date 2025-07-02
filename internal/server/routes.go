@@ -24,6 +24,8 @@ func (s *Server) RegisterRoutes() http.Handler {
 
 	mux.Handle("/home", templ.Handler(pages.Home()))
 	mux.Handle("/test", templ.Handler(pages.TestPage()))
+	mux.Handle("/nav", templ.Handler(pages.Nav()))
+
 	mux.Handle("/{$}", templ.Handler(pages.Index()))
 
 	// Wrap the mux with CORS middleware

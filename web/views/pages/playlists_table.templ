@@ -1,0 +1,75 @@
+package pages
+
+import "diffinlist/web/views/components/layout"
+
+templ PlaylistsTable() {
+	<div>
+		@layout.SectionHeader("Playlists", "")
+		<div class="overflow-x-auto bg-base-200 p-4  w-full ">
+			<table class="table w-full">
+				<thead>
+					<tr>
+						<th>Image</th>
+						<th>Title</th>
+						<th>Description</th>
+						<th>Author</th>
+						<th>Genres</th>
+						<th>Tracks</th>
+						<th>Poster Rating</th>
+						<th>Users Rating</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><img src="/assets/images/goku.jpg" class="w-20 h-20 object-cover rounded"/></td>
+						<td>Chill Beats</td>
+						<td>Lo-fi hip hop and chillhop for studying and relaxing.</td>
+						<td>
+							LofiGirl
+						</td>
+						<td>Lo-fi, Chillhop</td>
+						<td>120</td>
+						<td>
+							<div class="radial-progress " style="--value:85; --size:3rem; --thickness:4px" role="progressbar">8.5</div>
+						</td>
+						<td>
+							<div class="radial-progress " style="--value:92; --size:3rem; --thickness:4px" role="progressbar">9.2</div>
+						</td>
+					</tr>
+					<tr>
+						<td><img src="/assets/images/goku.jpg" class="w-20 h-20 object-cover rounded"/></td>
+						<td>Top 50 Global</td>
+						<td>The hottest tracks worldwide, updated weekly.</td>
+						<td>
+							GlobalCharts
+						</td>
+						<td>Pop, Hip-Hop, R&B</td>
+						<td>50</td>
+						<td>
+							<div class="radial-progress " style="--value:95; --size:3rem; --thickness:4px" role="progressbar">9.5</div>
+						</td>
+						<td>
+							<div class="radial-progress " style="--value:98; --size:3rem; --thickness:4px" role="progressbar">9.8</div>
+						</td>
+					</tr>
+					<tr>
+						<td><img src="/assets/images/goku.jpg" class="w-20 h-20 object-cover rounded"/></td>
+						<td>SoundCloud Gems</td>
+						<td>Underground and trending tracks from SoundCloud.</td>
+						<td>
+							IndieDiscover
+						</td>
+						<td>Electronic, Indie, Experimental</td>
+						<td>30</td>
+						<td>
+							<div class="radial-progress " style="--value:78; --size:3rem; --thickness:4px" role="progressbar">7.8</div>
+						</td>
+						<td>
+							<div class="radial-progress " style="--value:85; --size:3rem; --thickness:4px" role="progressbar">8.5</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+}

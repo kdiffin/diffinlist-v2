@@ -2,13 +2,13 @@ package ui
 
 var status map[string]string
 
-templ Avatar(src string, username string) {
+templ Avatar(src string, username string, sizeClass string) {
 	<div
-		class="relative w-6 h-6"
+		class={ "relative w-6 h-6 " + sizeClass }
 	>
 		<!-- Actual Avatar Image -->
 		<div class="absolute inset-0 avatar z-10">
-			<div class="w-6 h-6 rounded-full overflow-hidden">
+			<div class={ "w-6 h-6 rounded-full overflow-hidden " + sizeClass }>
 				<img
 					src={ src }
 					class="w-full h-full object-cover hidden"

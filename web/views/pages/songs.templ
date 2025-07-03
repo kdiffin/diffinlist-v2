@@ -1,0 +1,133 @@
+package pages
+
+import (
+	"diffinlist/web/views/components/layout"
+	"diffinlist/web/views/components/ui"
+	"fmt"
+)
+
+// SongSource is a custom type for the music source.
+type SongSource string
+
+const (
+	SourceYouTube    SongSource = "YouTube"
+	SourceSpotify    SongSource = "Spotify"
+	SourceSoundCloud SongSource = "SoundCloud"
+)
+
+// ListSong holds all the info for a song in the vertical list.
+type ListSong struct {
+	PlaybackID  string
+	ImageURL    string
+	Title       string
+	Description string
+	Rating      int // out of a 100
+	Album       string
+	Artist      string
+	Genre       string
+	Publisher   string
+	Source      SongSource
+	Liked       bool
+}
+
+templ SongListVertical(title string, songs []ListSong) {
+	<div>
+		@layout.SectionHeader("Songs", "")
+		<ul class="list bg-base-200 rounded-box shadow-md">
+			// List header
+			// Loop through the songs and render an item for each one
+			for _, song := range songs {
+				@SongListItem(song)
+			}
+			// "Show More" button at the bottom
+			// <li class="p-2">
+			// 	<button class="btn btn-ghost w-full" hx-get="/songs/more" hx-swap="beforeend" hx-target="previous ul">
+			// 		Show More
+			// 	</button>
+			// </li>
+		</ul>
+	</div>
+}
+
+// --- ICON COMPONENTS (reusable) --- //
+templ YouTubeIcon(class string) {
+	<svg class={ class } fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" d="M19.802 7.998a2.534 2.534 0 00-1.79-1.79C16.535 5.802 12 5.802 12 5.802s-4.535 0-6.012.406a2.534 2.534 0 00-1.79 1.79c-.406 1.477-.406 4.535 0 6.012a2.534 2.534 0 001.79 1.79c1.477.406 6.012.406 6.012.406s4.535 0 6.012-.406a2.534 2.534 0 001.79-1.79c.406-1.477.406-4.535 0-6.012zM9.546 14.498V9.502l4.535 2.498-4.535 2.5z" clip-rule="evenodd"></path></svg>
+}
+
+templ SpotifyIcon(class string) {
+	<svg class={ class } fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" aria-hidden="true"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm100 372c-4 10-16 12-25 8-63-38-142-47-237-26-10 2-20-4-22-14s4-20 14-22c102-23 189-13 259 31 10 5 12 17 8 25zm14-63c-5 12-19 16-30 11-74-45-177-58-261-32-13 4-26-3-30-15s3-26 15-30c94-28 208-14 292 38 12 6 16 20 11 30zm3-67c-9 14-26 18-39 9-85-51-229-66-321-37-15 5-31-5-35-19s5-31 19-35c102-32 258-16 355 42 14 9 18 26 9 39z"></path></svg>
+}
+
+templ SoundCloudIcon(class string) {
+	<svg class={ class } fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.7,14.2c-0.8,0-1.5,0.1-2.2,0.2c-0.7,0.1-1.4,0.3-2,0.5c-0.3,0.1-0.5,0.3-0.6,0.5c-0.1,0.2-0.1,0.5,0,0.8 c0.1,0.3,0.3,0.5,0.5,0.6C2.7,16.9,3,17,3.3,17H12c0,0,0,0,0,0c0.6,0,1-0.2,1.3-0.7c0.3-0.4,0.3-1,0-1.6c-0.1-0.3-0.4-0.5-0.7-0.7 c-1.5-0.7-3.1-1-4.7-1H6.7z M23.9,12.5c-0.1-0.4-0.3-0.7-0.6-0.9c-0.3-0.2-0.6-0.3-1-0.2c-0.7,0.1-1.3,0.1-2,0.1 c-0.7,0-1.4-0.1-2-0.2c-0.7-0.1-1.3-0.3-2-0.5c-0.6-0.2-1.2-0.5-1.7-0.9c-0.5-0.4-1-0.9-1.3-1.4c-0.2-0.4-0.2-0.7-0.1-1 c0.1-0.3,0.3-0.6,0.6-0.8c0.2-0.1,0.5-0.2,0.8-0.2c0.3,0,0.6,0,0.9,0.1c1.3,0.4,2.7,0.6,4.1,0.6c1.4,0,2.8-0.2,4.1-0.6 c0.3-0.1,0.6-0.1,0.9,0c0.3,0.1,0.5,0.3,0.6,0.6c0.1,0.3,0.1,0.6,0,0.8C24,11.1,24,11.8,23.9,12.5z M0.1,10.6 c0.1,0.3,0.3,0.6,0.6,0.8C1,11.7,1.5,12,2.1,12.3c0.6,0.3,1.2,0.5,1.9,0.6c0.7,0.1,1.3,0.2,2,0.2c0.7,0,1.3-0.1,2-0.1 c0.6,0,1.2-0.1,1.8-0.2c0.6-0.1,1.1-0.3,1.7-0.5c0.2-0.1,0.5-0.3,0.6-0.5c0.1-0.2,0.1-0.5,0-0.8c-0.1-0.3-0.3-0.5-0.5-0.6 c-0.3-0.1-0.5-0.1-0.8,0C10,11,9.2,11.2,8.5,11.4C7.8,11.5,7.1,11.6,6.4,11.6c-0.9,0-1.8-0.1-2.7-0.4C2.8,11,1.9,10.5,1,9.8 C0.7,9.6,0.4,9.5,0.2,9.5C0.1,9.5,0,9.5,0,9.6c0,0.1,0,0.3,0,0.4C0,10.2,0,10.4,0.1,10.6z M1,8.2C1,8.5,1.1,8.7,1.2,8.8 C1.3,9,1.5,9.1,1.7,9.2C2.1,9.3,2.5,9.4,2.9,9.4c1.2,0,2.4-0.2,3.5-0.6c0.3-0.1,0.5-0.3,0.7-0.5c0.1-0.2,0.1-0.5,0-0.8 C6.8,7.2,6.5,7,6.2,6.9C5.9,6.7,5.5,6.7,5.2,6.7c-0.9,0-1.8,0.2-2.6,0.5C1.8,7.5,1.3,7.8,1,8.2z"></path></svg>
+}
+
+// SongListItem is the component for a single row in the list.
+templ SongListItem(song ListSong) {
+	<li class="list-row p-4">
+		// Thumbnail
+		<div><img class="size-20 rounded-box" src={ song.ImageURL } alt={ song.Title }/></div>
+		// Song Info & Details (Flex it out!)
+		<div class="flex-grow flex flex-col gap-1">
+			<div class="font-bold text-lg">{ song.Title }</div>
+			<div class="text-sm uppercase font-semibold opacity-70 flex items-center gap-2">
+				// Source Icon
+				// <span>
+				// 	switch song.Source {
+				// 		case SourceYouTube:
+				// 			@YouTubeIcon("size-[0.9em]")
+				// 		case SourceSpotify:
+				// 			@SpotifyIcon("size-[0.9em]")
+				// 		case SourceSoundCloud:
+				// 			@SoundCloudIcon("size-[0.9em]")
+				// 	}
+				// </span>
+				// Artist, Album, and Genre
+				<div class="badge badge-info">
+					@ui.ArtistIcon("")
+					{ song.Artist }
+				</div>
+				<div class="badge badge-accent">
+					@ui.AlbumIcon("")
+					{ song.Album }
+				</div>
+				<div class="badge badge-success">
+					@ui.GenreIcon("")
+					{ song.Genre }
+				</div>
+				<div class="badge badge-error">
+					@ui.ProfileIcon("")
+					{ song.Publisher }
+				</div>
+			</div>
+			// Description (DaisyUI's list-col-wrap for the win!)
+			<p class="max-w-2xl  list-col-wrap   text-sm opacity-80 mt-1">
+				{ song.Description }
+			</p>
+		</div>
+		<div class="">
+			<div class="flex items-center ">
+				<span class="mr-1 font-bold border-2 px-2 ">
+					{ fmt.Sprintf("%.1f", float64(song.Rating)/10.0) }/10
+				</span>
+				// Play Button
+				<button class="btn btn-square btn-ghost" title="Play">
+					<svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor"><path d="M6 3L20 12 6 21 6 3z"></path></g></svg>
+				</button>
+				// Like Button (changes based on the 'Liked' prop)
+				<button class="btn btn-square btn-ghost" title="Like">
+					if song.Liked {
+						// Filled heart icon for a liked song
+						<svg class="size-4 text-error" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path> </svg>
+					} else {
+						// Outline heart icon
+						<svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></g></svg>
+					}
+				</button>
+			</div>
+			<div>
+				<button class="btn btn-primary mt-2">+ More Info</button>
+			</div>
+		</div>
+	</li>
+}

@@ -1,8 +1,24 @@
 package pages
 
-import "diffinlist/web/views/components/layout"
+import (
+	"diffinlist/web/views/components/layout"
+	"fmt"
+	"strconv"
+)
 
-templ PlaylistsTable() {
+// Playlist holds all the info for a single playlist.
+type Playlist struct {
+	ImageURL     string
+	Title        string
+	Description  string
+	Author       string
+	Genres       string
+	TrackCount   int
+	PosterRating int // Should be a value from 0-100 for the progress bar
+	UserRating   int // Also a value from 0-100
+}
+
+templ PlaylistsTable(playlists []Playlist) {
 	<div>
 		@layout.SectionHeader("Playlists", "")
 		<div class="overflow-x-auto bg-base-200 p-4  w-full ">
@@ -20,54 +36,31 @@ templ PlaylistsTable() {
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td><img src="/assets/images/goku.jpg" class="w-20 h-20 object-cover rounded"/></td>
-						<td>Chill Beats</td>
-						<td>Lo-fi hip hop and chillhop for studying and relaxing.</td>
-						<td>
-							LofiGirl
-						</td>
-						<td>Lo-fi, Chillhop</td>
-						<td>120</td>
-						<td>
-							<div class="radial-progress " style="--value:85; --size:3rem; --thickness:4px" role="progressbar">8.5</div>
-						</td>
-						<td>
-							<div class="radial-progress " style="--value:92; --size:3rem; --thickness:4px" role="progressbar">9.2</div>
-						</td>
-					</tr>
-					<tr>
-						<td><img src="/assets/images/goku.jpg" class="w-20 h-20 object-cover rounded"/></td>
-						<td>Top 50 Global</td>
-						<td>The hottest tracks worldwide, updated weekly.</td>
-						<td>
-							GlobalCharts
-						</td>
-						<td>Pop, Hip-Hop, R&B</td>
-						<td>50</td>
-						<td>
-							<div class="radial-progress " style="--value:95; --size:3rem; --thickness:4px" role="progressbar">9.5</div>
-						</td>
-						<td>
-							<div class="radial-progress " style="--value:98; --size:3rem; --thickness:4px" role="progressbar">9.8</div>
-						</td>
-					</tr>
-					<tr>
-						<td><img src="/assets/images/goku.jpg" class="w-20 h-20 object-cover rounded"/></td>
-						<td>SoundCloud Gems</td>
-						<td>Underground and trending tracks from SoundCloud.</td>
-						<td>
-							IndieDiscover
-						</td>
-						<td>Electronic, Indie, Experimental</td>
-						<td>30</td>
-						<td>
-							<div class="radial-progress " style="--value:78; --size:3rem; --thickness:4px" role="progressbar">7.8</div>
-						</td>
-						<td>
-							<div class="radial-progress " style="--value:85; --size:3rem; --thickness:4px" role="progressbar">8.5</div>
-						</td>
-					</tr>
+					if len(playlists) == 0 {
+						<tr>
+							<td colspan="8" class="text-center">No playlists found. Big yikes.</td>
+						</tr>
+					}
+					for _, p := range playlists {
+						<tr>
+							<td><img src={ p.ImageURL } alt={ p.Title } class="size-20 object-cover rounded"/></td>
+							<td>{ p.Title }</td>
+							<td>{ p.Description }</td>
+							<td>{ p.Author }</td>
+							<td>{ p.Genres }</td>
+							<td>{ strconv.Itoa(p.TrackCount) }</td>
+							<td>
+								<div class="radial-progress" style={ fmt.Sprintf("--value:%d; --size:3rem; --thickness:4px", p.PosterRating) } role="progressbar">
+									{ fmt.Sprintf("%.1f", float64(p.PosterRating)/10.0) }
+								</div>
+							</td>
+							<td>
+								<div class="radial-progress" style={ fmt.Sprintf("--value:%d; --size:3rem; --thickness:4px", p.UserRating) } role="progressbar">
+									{ fmt.Sprintf("%.1f", float64(p.UserRating)/10.0) }
+								</div>
+							</td>
+						</tr>
+					}
 				</tbody>
 			</table>
 		</div>

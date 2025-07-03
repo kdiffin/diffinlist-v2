@@ -18,20 +18,29 @@
   --color-base-content: oklch(87.609% 0 0);
   --color-primary: oklch(35% 0 0);
   --color-primary-content: oklch(100% 0 0);
-  --color-secondary: oklch(35% 0 0);
-  --color-secondary-content: oklch(100% 0 0);
-  --color-accent: oklch(35% 0 0);
-  --color-accent-content: oklch(100% 0 0);
-  --color-neutral: oklch(35% 0 0);
-  --color-neutral-content: oklch(100% 0 0);
-  --color-info: oklch(45.201% 0.313 264.052);
-  --color-info-content: oklch(89.04% 0.062 264.052);
-  --color-success: oklch(51.975% 0.176 142.495);
-  --color-success-content: oklch(90.395% 0.035 142.495);
-  --color-warning: oklch(96.798% 0.211 109.769);
-  --color-warning-content: oklch(19.359% 0.042 109.769);
-  --color-error: oklch(62.795% 0.257 29.233);
-  --color-error-content: oklch(12.559% 0.051 29.233);
+
+  /* Making these colors POP and lighter! */
+  --color-secondary: oklch(75% 0.18 200); /* Lighter Vibrant Teal */
+  --color-secondary-content: oklch(10% 0 0); /* Darker for contrast */
+
+  --color-accent: oklch(80% 0.22 330); /* Lighter Lively Magenta */
+  --color-accent-content: oklch(10% 0 0); /* Darker for contrast */
+
+  --color-neutral: oklch(0% 0.07 240); /* Lighter Cool, slightly bluish dark gray */
+  --color-neutral-content: oklch(98% 0 0); /* Lighter for contrast */
+
+  --color-info: oklch(75% 0.22 250); /* Lighter Clear Blue */
+  --color-info-content: oklch(10% 0 0); /* Darker for contrast */
+
+  --color-success: oklch(75% 0.22 140); /* Lighter Fresh Green */
+  --color-success-content: oklch(10% 0 0); /* Darker for contrast */
+
+  --color-warning: oklch(93.71% 0.199 105.01); /* Lighter Punchy Orange */
+  --color-warning-content: oklch(10% 0 0); /* Darker for contrast */
+
+  --color-error: oklch(75% 0.25 20); /* Lighter Strong Red */
+  --color-error-content: oklch(10% 0 0); /* Darker for contrast */
+  
   --radius-selector: 0.25rem;
   --radius-field: 0.25rem;
   --radius-box: 0.25rem;
@@ -41,4 +50,3 @@
   --depth: 0;
   --noise: 0;
 }
-

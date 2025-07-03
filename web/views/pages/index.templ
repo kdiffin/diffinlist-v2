@@ -1,9 +1,83 @@
 package pages
 
-import "diffinlist/web/views/layouts"
-import "diffinlist/web/views/components/ui"
+import (
+	"diffinlist/web/views/components/ui"
+	"diffinlist/web/views/layouts"
+)
 
 templ Index() {
+	{{myPlaylists := []Playlist{
+	{
+		ImageURL:     "/assets/images/goku.jpg",
+		Title:        "Chill diddy",
+		Description:  "Lo-fi hip hop and chillhop for studying and relaxing.",
+		Author:       "LofiGirl",
+		Genres:       "Lo-fi, Chillhop",
+		TrackCount:   120,
+		PosterRating: 85,
+		UserRating:   92,
+	},
+	{
+		ImageURL:     "/assets/images/goku.jpg",
+		Title:        "Top 50 Global",
+		Description:  "The hottest tracks worldwide, updated weekly.",
+		Author:       "GlobalCharts",
+		Genres:       "Pop, Hip-Hop, R&B",
+		TrackCount:   50,
+		PosterRating: 95,
+		UserRating:   98,
+	},
+	{
+		ImageURL:     "/assets/images/goku.jpg",
+		Title:        "SoundCloud Gems",
+		Description:  "Underground and trending tracks from SoundCloud.",
+		Author:       "IndieDiscover",
+		Genres:       "Electronic, Indie, Experimental",
+		TrackCount:   30,
+		PosterRating: 78,
+		UserRating:   85,
+	},
+}
+	}}
+	{{songs := []ListSong{
+	{
+		PlaybackID:  "dio-lupa",
+		ImageURL:    "https://img.daisyui.com/images/profile/demo/1@94.webp",
+		Title:       "Dio Lupa",
+		Description: " Excepturi ratione minus delectus similique amet repellendus, architecto impedit illo mollitia doloribus accusamus corporis voluptatibus ipsa voluptate aliquam culpa, deleniti, nesciunt enim consequatur eligendi asperiores nulla! Ratione ipsum repellat quos ab autem?",
+		Rating:      95,
+		Album:       "these",
+		Artist:      "Remaining Reason",
+		Genre:       "Phonk",
+		Source:      SourceSoundCloud,
+		Liked:       true,
+	},
+	{
+		PlaybackID:  "ellie-beilish",
+		ImageURL:    "https://img.daisyui.com/images/profile/demo/4@94.webp",
+		Description: " Excepturi ratione minus delectus similique amet repellendus, architecto impedit illo mollitia doloribus accusamus corporis voluptatibus ipsa voluptate aliquam culpa, deleniti, nesciunt enim consequatur eligendi asperiores nulla! Ratione ipsum repellat quos ab autem?",
+		Rating:      95,
+		Album:       "these",
+		Title:       "Bears of a fever",
+		Artist:      "Ellie Beilish",
+		Genre:       "Pop",
+		Source:      SourceSpotify,
+		Liked:       false,
+	},
+	{
+		PlaybackID:  "sabrino-gardener",
+		ImageURL:    "https://img.daisyui.com/images/profile/demo/3@94.webp",
+		Description: " Excepturi ratione minus delectus similique amet repellendus, architecto impedit illo mollitia doloribus accusamus corporis voluptatibus ipsa voluptate aliquam culpa, deleniti, nesciunt enim consequatur eligendi asperiores nulla! Ratione ipsum repellat quos ab autem?",
+		Rating:      95,
+		Album:       "these",
+		Title:       "Cappuccino",
+		Artist:      "Sabrino Gardener",
+		Genre:       "Indie",
+		Source:      SourceYouTube,
+		Liked:       false,
+	},
+}
+	}}
 	@layouts.Base() {
 		<div>
 			<div class="bg-base-200 flex   items-center justify-center  px-8 py-14 sm:justify-normal lg:px-14 ">
@@ -28,7 +102,10 @@ templ Index() {
 			</div>
 			<div class=" flex flex-col  justify-center p-8  gap-10">
 				<div class="w-full ">
-					@PlaylistsTable()
+					@PlaylistsTable(myPlaylists)
+				</div>
+				<div>
+					@SongListVertical("songs", songs)
 				</div>
 			</div>
 		</div>

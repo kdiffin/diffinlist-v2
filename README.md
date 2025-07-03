@@ -2,7 +2,12 @@
 
 ## rerwiting diffinlist in htmx
 
-## main goal of this app is to be the goat web scraper of online music to save them as a playlist
+**main goal of this app is to be the goat web scraper of online music to save them as a playlist**
+
+## Todos
+
+- v1
+- [ ] model database
 
 ## MakeFile
 

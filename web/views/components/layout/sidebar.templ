@@ -47,7 +47,7 @@ templ Sidebar() {
 		</nav>
 		<div class=" w-full grid place-items-center gap-4 py-4  mt-auto border-t border-t-neutral-800 ">
 			<div>
-				<button onclick="my_modal_1.showModal()" class="rounded-sm btn p-2  px-3 text-base-content/70">+ add song</button>
+				<button onclick="add-song-modal.showModal()" class="rounded-sm btn p-2  px-3 text-base-content/70">+ add song</button>
 			</div>
 			<div>
 				<button class="rounded-sm btn p-2  px-3 text-base-content/70">+ create playlist</button>
@@ -58,7 +58,7 @@ templ Sidebar() {
 }
 
 templ AddSongModal() {
-	<dialog id="my_modal_1" class="modal">
+	<dialog id="add-song-modal" class="modal">
 		<div class="modal-box">
 			<h3 class="text-lg font-bold">Hello!</h3>
 			<p class="py-4">Press ESC key or click the button below to close</p>

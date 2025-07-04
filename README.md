@@ -8,6 +8,10 @@
 
 - v1
 - [ ] model database
+  - [ ] get the initial users and sessions table ready
+  - [ ] test out the db
+  - [ ] finish setting up playlists table
+  - [ ] finish setting up songs table
 
 ## MakeFile
 

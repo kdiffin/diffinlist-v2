@@ -5,13 +5,14 @@ import (
 	"log"
 	"net/http"
 
+	db "diffinlist/internal/db/generated"
 	"diffinlist/web"
 	"diffinlist/web/views/pages"
 
 	"github.com/a-h/templ"
 )
 
-func (s *Server) RegisterRoutes() http.Handler {
+func (s *Server) RegisterRoutes(queries *db.Queries) http.Handler {
 	mux := http.NewServeMux()
 
 	// Register routes

@@ -5,11 +5,15 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
+	db "diffinlist/internal/db/generated"
 	"diffinlist/internal/server"
+
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 func gracefulShutdown(apiServer *http.Server, done chan bool) {
@@ -38,8 +42,19 @@ func gracefulShutdown(apiServer *http.Server, done chan bool) {
 }
 
 func main() {
+	// DB INIT START
+	// pgx pool starts a pool thats concurrency safe
+	dbpool, errDbConn := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
+	// connects to db via url
+	if errDbConn != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", errDbConn)
+		os.Exit(1)
+	}
+	defer dbpool.Close()
+	queries := db.New(dbpool)
+	// DB INIT END
 
-	server := server.NewServer()
+	server := server.NewServer(queries)
 
 	// Create a done channel to signal when the shutdown is complete
 	done := make(chan bool, 1)

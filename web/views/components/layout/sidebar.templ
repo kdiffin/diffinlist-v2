@@ -47,27 +47,170 @@ templ Sidebar() {
 		</nav>
 		<div class=" w-full grid place-items-center gap-4 py-4  mt-auto border-t border-t-neutral-800 ">
 			<div>
-				<button onclick="add-song-modal.showModal()" class="rounded-sm btn p-2  px-3 text-base-content/70">+ add song</button>
+				<button onclick="document.getElementById('add-song-modal').showModal()" class="rounded-sm btn p-2  px-3 text-base-content/70">+ add song</button>
 			</div>
 			<div>
-				<button class="rounded-sm btn p-2  px-3 text-base-content/70">+ create playlist</button>
+				<button onclick="document.getElementById('add-playlist-modal').showModal()" class="rounded-sm btn p-2  px-3 text-base-content/70">+ create playlist</button>
 			</div>
 		</div>
-		@AddSongModal()
+		@AddSongModal("", "", "", "")
+		@AddPlaylistModal("", "", "")
 	</aside>
 }
 
-templ AddSongModal() {
+templ AddSongModal(pictureUrl string, name string, songUrl string, genre string) {
 	<dialog id="add-song-modal" class="modal">
-		<div class="modal-box">
-			<h3 class="text-lg font-bold">Hello!</h3>
-			<p class="py-4">Press ESC key or click the button below to close</p>
-			<div class="modal-action">
-				<form method="dialog">
-					<!-- if there is a button in form, it will close the modal -->
-					<button class="btn">Close</button>
-				</form>
+		<div class="modal-box max-w-screen-xl bg-base-300 w-full">
+			<h3 class="text-2xl font-bold mb-2">Add Song</h3>
+			<p class="mb-6 text-base-content/70">Fill out the details below to add a song. The song URL is required and will be scraped for information.</p>
+			<div class="my-10 flex flex-col px-6 items-center justify-between gap-10 sm:flex-row sm:gap-0">
+				<div class="flex items-center gap-5">
+					if pictureUrl != "" {
+						<img alt="Playlist img" src={ pictureUrl } width="130" height="130" class="rounded-sm bg-cover w-[130px] h-[130px]"/>
+					} else {
+						<div class="skeleton bg-base-200 w-[130px] h-[130px] rounded-sm"></div>
+					}
+					<div class="flex flex-col gap-3">
+						<div class="cursor-text text-4xl">
+							if name != "" {
+								<a href={ songUrl } target="_blank">{ name }</a>
+							} else {
+								<label for="Name" class="cursor-text text-2xl italic text-neutral-500">enter in name</label>
+							}
+						</div>
+						<div class="cursor-text text-neutral-500">
+							if genre != "" {
+								<p>Aesthetic / genre: { genre }</p>
+							} else {
+								<label for="Aesthetic / genre" class="cursor-text italic text-neutral-500">Enter genre</label>
+							}
+						</div>
+					</div>
+				</div>
+				<button type="button" class="btn bg-red-400/30 text-sm ml-0 sm:ml-10">Remove changes</button>
 			</div>
+			<form>
+				<fieldset class="fieldset rounded-box w-full  p-6">
+					<div class="col-span-1 md:col-span-2 mb-4">
+						<label class="form-control w-full">
+							<div class="label">
+								<span class="label-text font-semibold">Song URL <span class="text-error">*</span></span>
+							</div>
+							<div class="flex flex-col sm:flex-row gap-2 items-center">
+								<input class="input  input-bordered input-lg flex-1 w-full" type="url" required placeholder="Paste YouTube, Spotify, or SoundCloud URL"/>
+								<button type="button" class="btn btn-outline btn-lg !text-base w-full  sm:w-auto">Get Information</button>
+							</div>
+							<div class="label">
+								<span class="label-text-alt">Enter a valid song URL to scrape its info.</span>
+							</div>
+						</label>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<label class="form-control w-full">
+							<div class="label">
+								<span class="label-text font-semibold">Name <span class="text-error">*</span></span>
+							</div>
+							<input class="input  input-bordered w-full" type="text" placeholder="Song name"/>
+						</label>
+						<label class="form-control w-full">
+							<div class="label">
+								<span class="label-text font-semibold">Artist</span>
+							</div>
+							<input class="input  input-bordered w-full" type="text" placeholder="Artist who made the song (optional)"/>
+						</label>
+						<label class="form-control w-full">
+							<div class="label">
+								<span class="label-text font-semibold">Picture URL</span>
+							</div>
+							<input class="input  input-bordered w-full" type="url" placeholder="Image URL for the song (optional)"/>
+						</label>
+						<label class="form-control w-full">
+							<div class="label">
+								<span class="label-text font-semibold">Aesthetic / Genre</span>
+							</div>
+							<input class="input  input-bordered w-full" type="text" placeholder="Genre of the song (optional)"/>
+						</label>
+						<label class="form-control w-full">
+							<div class="label">
+								<span class="label-text font-semibold">Album</span>
+							</div>
+							<input class="input  input-bordered w-full" type="text" placeholder="Album name (optional)"/>
+						</label>
+						<label class="form-control w-full">
+							<div class="label">
+								<span class="label-text font-semibold">Rating</span>
+							</div>
+							<input class="input  input-bordered w-full" type="number" min="0" max="10" placeholder="Rating / 10 (optional)"/>
+						</label>
+						<label class="form-control w-full col-span-1 md:col-span-2">
+							<div class="label">
+								<span class="label-text font-semibold">Description</span>
+							</div>
+							<input class="input  input-bordered w-full" type="text" placeholder="Description (optional)"/>
+						</label>
+					</div>
+				</fieldset>
+				<div class="modal-action mt-6 flex justify-end gap-4">
+					<button type="button" class="btn btn-ghost">Close</button>
+					<button type="submit" class="btn btn-primary">+ Add Song</button>
+				</div>
+			</form>
+		</div>
+		<form method="dialog" class="modal-backdrop">
+			<button>close</button>
+		</form>
+	</dialog>
+}
+
+templ AddPlaylistModal(pictureUrl string, name string, genre string) {
+	<dialog id="add-playlist-modal" class="modal">
+		<div class="modal-box max-w-screen-xl bg-base-300 w-full">
+			<h3 class="text-2xl font-bold mb-2">
+				Create playlist
+			</h3>
+			<p class="mb-6 text-base-content/70">
+				Create a playlist here. Click add playlist when you're done.
+			</p>
+			<div class="my-10 flex flex-col px-6 items-center justify-between gap-10 sm:flex-row sm:gap-0">
+				<div class="flex items-center gap-5">
+					if pictureUrl != "" {
+						<img alt="Playlist img" src={ pictureUrl } width="130" height="130" class="rounded-sm bg-cover w-[130px] h-[130px]"/>
+					} else {
+						<div class="skeleton bg-base-200 w-[130px] h-[130px] rounded-sm"></div>
+					}
+					<div class="flex flex-col gap-3">
+						<div class="cursor-text text-4xl">
+							if name != "" {
+								<p>{ name }</p>
+							} else {
+								<label for="Name" class="cursor-text text-2xl italic text-neutral-500">enter in name</label>
+							}
+						</div>
+						<div class="cursor-text text-neutral-500">
+							if genre != "" {
+								<p>Aesthetic / genre: { genre }</p>
+							} else {
+								<label for="Aesthetic / genre" class="cursor-text italic text-neutral-500">Enter genre</label>
+							}
+						</div>
+					</div>
+				</div>
+				<button type="button" class="btn bg-red-400/30 text-sm ml-0 sm:ml-10">Remove changes</button>
+			</div>
+			<form>
+				<fieldset class="fieldset  border-base-300 rounded-box  px-6">
+					<label class="label">Name</label>
+					<input type="text" class="input w-full" placeholder="Peas sell but whos buying?"/>
+					<label class="label">Aeshtetic / Genre</label>
+					<input type="text" class="input w-full" placeholder="peas"/>
+					<label class="label">Picture</label>
+					<input type="text" class="input w-full" placeholder="Name"/>
+				</fieldset>
+				<div class="modal-action mt-6 flex justify-end gap-4">
+					<button type="button" class="btn btn-ghost">Close</button>
+					<button type="submit" class="btn btn-primary">+ Add Playlist</button>
+				</div>
+			</form>
 		</div>
 		<form method="dialog" class="modal-backdrop">
 			<button>close</button>

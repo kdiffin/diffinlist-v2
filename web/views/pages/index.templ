@@ -1,12 +1,13 @@
 package pages
 
 import (
+	"diffinlist/web/views/components"
 	"diffinlist/web/views/components/ui"
 	"diffinlist/web/views/layouts"
 )
 
 templ Index() {
-	{{myPlaylists := []Playlist{
+	{{myPlaylists := []components.Playlist{
 	{
 		ImageURL:     "/assets/images/goku.jpg",
 		Title:        "Chill diddy",
@@ -39,7 +40,7 @@ templ Index() {
 	},
 }
 	}}
-	{{songs := []ListSong{
+	{{songs := []components.ListSong{
 	{
 		PlaybackID:  "dio-lupa",
 		ImageURL:    "https://img.daisyui.com/images/profile/demo/1@94.webp",
@@ -49,7 +50,7 @@ templ Index() {
 		Album:       "these",
 		Artist:      "Remaining Reason",
 		Genre:       "Phonk",
-		Source:      SourceSoundCloud,
+		Source:      components.SourceSoundCloud,
 		Liked:       true,
 	},
 	{
@@ -61,7 +62,7 @@ templ Index() {
 		Title:       "Bears of a fever",
 		Artist:      "Ellie Beilish",
 		Genre:       "Pop",
-		Source:      SourceSpotify,
+		Source:      components.SourceSpotify,
 		Liked:       false,
 	},
 	{
@@ -73,7 +74,7 @@ templ Index() {
 		Title:       "Cappuccino",
 		Artist:      "Sabrino Gardener",
 		Genre:       "Indie",
-		Source:      SourceYouTube,
+		Source:      components.SourceYouTube,
 		Liked:       false,
 	},
 }
@@ -102,10 +103,10 @@ templ Index() {
 			</div>
 			<div class=" flex flex-col  justify-center p-8  gap-10">
 				<div class="w-full ">
-					@PlaylistsTable(myPlaylists)
+					@components.PlaylistsTable(myPlaylists)
 				</div>
 				<div>
-					@SongListVertical("songs", songs)
+					@components.SongListVertical("songs", songs)
 				</div>
 			</div>
 		</div>

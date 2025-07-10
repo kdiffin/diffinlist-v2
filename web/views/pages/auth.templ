@@ -24,7 +24,11 @@ templ Auth() {
 templ AuthForm() {
 	<div class="card border-4 border-primary   w-full  shadow-2xl">
 		<div class="card-body flex-col ">
-			<form class="space-y-6">
+			<form
+				action="/login"
+				method="post"
+				class="space-y-6"
+			>
 				<div class="divider text-lg font-semibold">Account Details</div>
 				<div class="space-y-4">
 					<div>
@@ -48,7 +52,7 @@ templ AuthForm() {
 				// 	</button>
 				// </div>
 				<div class="flex flex-col gap-4">
-					<a href="/dashboard" class="btn btn-primary w-full text-lg ">Login</a>
+					<button type="submit" class="btn btn-primary w-full text-lg ">Login</button>
 					<div class="text-center text-base-content/70">
 						don't have an account? <a class="link link-accent" href="/sign-up">sign-up</a>
 					</div>

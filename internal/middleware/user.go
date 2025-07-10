@@ -67,8 +67,8 @@ func HandlerWithUser(queries *db.Queries, next http.Handler) http.Handler {
 		user, err := getUserInfoFromSessionId(queries, r)
 		if err != nil {
 			utils.LogError("error at session value from cookie:", err)
-			w.Header().Add("hx-redirect", "/login/")
-			http.Redirect(w, r, "/login/", http.StatusSeeOther)
+			w.Header().Add("hx-redirect", "/login")
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
 			return
 		}
 		ctx := context.WithValue(r.Context(), userContextKey, user)

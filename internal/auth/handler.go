@@ -53,7 +53,7 @@ func HandleSignup(queries *db.Queries, w http.ResponseWriter, r *http.Request) {
 				http.Error(w, "User exists", 400)
 				return
 			}
-			http.Redirect(w, r, "/login/", http.StatusSeeOther)
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
 
 			return
 		} else {
@@ -110,7 +110,7 @@ func HandleSignup(queries *db.Queries, w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "User exists", 400)
 		return
 	}
-	http.Redirect(w, r, "/login/", http.StatusSeeOther)
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 
 func generateSessionID() string {
@@ -142,7 +142,7 @@ func HandleLogin(queries *db.Queries, w http.ResponseWriter, r *http.Request) {
 		Path:     "/",
 	}
 	http.SetCookie(w, &cookie)
-	http.Redirect(w, r, "/tasks/", http.StatusSeeOther)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func HandleLogout(queries *db.Queries, w http.ResponseWriter, r *http.Request) {
@@ -161,5 +161,5 @@ func HandleLogout(queries *db.Queries, w http.ResponseWriter, r *http.Request) {
 		MaxAge: -1,
 		Path:   "/",
 	})
-	http.Redirect(w, r, "/login/", http.StatusSeeOther)
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }

@@ -20,7 +20,7 @@ func (s *Server) RegisterRoutes(queries *db.Queries) http.Handler {
 
 	fileServer := http.FileServer(http.FS(web.Files))
 	mux.Handle("/assets/", fileServer)
-	mux.Handle("/auth", templ.Handler(pages.Auth()))
+	mux.Handle("/login", templ.Handler(pages.Auth()))
 	mux.Handle("/sign-up", templ.Handler(pages.Signup()))
 	setupAuthRoutes(mux, queries)
 

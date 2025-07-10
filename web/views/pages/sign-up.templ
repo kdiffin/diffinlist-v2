@@ -24,7 +24,12 @@ templ Signup() {
 templ SignupForm() {
 	<div class="card border-4 border-primary   w-full  shadow-2xl">
 		<div class="card-body flex-col ">
-			<form class="space-y-6">
+			<form
+				action="/sign-up"
+				enctype="multipart/form-data"
+				method="post"
+				class="space-y-6"
+			>
 				<div class="divider text-lg font-semibold">Account Details</div>
 				<div class="space-y-4">
 					<div>
@@ -37,7 +42,7 @@ templ SignupForm() {
 					</div>
 					<div>
 						<label class="label">Profile picture</label>
-						<input type="file" class="file-input file-input-bordered w-full"/>
+						<input type="file" name="img" class="file-input file-input-bordered w-full"/>
 						<label class="label text-sm opacity-70">Max size 4MB</label>
 					</div>
 				</div>
@@ -53,9 +58,9 @@ templ SignupForm() {
 				// 	</button>
 				// </div>
 				<div class="flex flex-col gap-4">
-					<a href="/dashboard" class="btn btn-primary w-full text-lg ">Sign Up</a>
+					<button type="submit" class="btn btn-primary w-full text-lg ">Sign Up</button>
 					<div class="text-center text-base-content/70">
-						already have an account? <a class="link link-accent" href="/auth">login</a>
+						already have an account? <a class="link link-accent" href="/login">login</a>
 					</div>
 				</div>
 			</form>

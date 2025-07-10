@@ -13,7 +13,7 @@ CREATE TABLE
 
 CREATE TABLE
     sessions (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+        id TEXT PRIMARY KEY DEFAULT gen_random_uuid (),
         user_id UUID REFERENCES users (id) ON DELETE CASCADE,
         created_at TIMESTAMP NOT NULL DEFAULT now ()
     );

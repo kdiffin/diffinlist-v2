@@ -16,7 +16,7 @@ INSERT INTO sessions (id, user_id) VALUES($1,$2)
 `
 
 type CreateSessionParams struct {
-	ID     pgtype.UUID
+	ID     string
 	UserID pgtype.UUID
 }
 
@@ -29,7 +29,7 @@ const deleteSession = `-- name: DeleteSession :exec
 DELETE FROM sessions WHERE id = $1
 `
 
-func (q *Queries) DeleteSession(ctx context.Context, id pgtype.UUID) error {
+func (q *Queries) DeleteSession(ctx context.Context, id string) error {
 	_, err := q.db.Exec(ctx, deleteSession, id)
 	return err
 }
@@ -39,11 +39,11 @@ SELECT id, user_id FROM sessions WHERE id = $1
 `
 
 type GetSessionValuesRow struct {
-	ID     pgtype.UUID
+	ID     string
 	UserID pgtype.UUID
 }
 
-func (q *Queries) GetSessionValues(ctx context.Context, id pgtype.UUID) (GetSessionValuesRow, error) {
+func (q *Queries) GetSessionValues(ctx context.Context, id string) (GetSessionValuesRow, error) {
 	row := q.db.QueryRow(ctx, getSessionValues, id)
 	var i GetSessionValuesRow
 	err := row.Scan(&i.ID, &i.UserID)

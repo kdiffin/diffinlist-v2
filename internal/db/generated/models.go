@@ -23,7 +23,7 @@ type Playlist struct {
 }
 
 type Session struct {
-	ID        pgtype.UUID
+	ID        string
 	UserID    pgtype.UUID
 	CreatedAt pgtype.Timestamp
 }

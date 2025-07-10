@@ -22,6 +22,7 @@ func (s *Server) RegisterRoutes(queries *db.Queries) http.Handler {
 	mux.Handle("/assets/", fileServer)
 	mux.Handle("/auth", templ.Handler(pages.Auth()))
 	mux.Handle("/sign-up", templ.Handler(pages.Signup()))
+	setupAuthRoutes(mux, queries)
 
 	// mux.Handle("/preferences", templ.Handler(pages.()))
 

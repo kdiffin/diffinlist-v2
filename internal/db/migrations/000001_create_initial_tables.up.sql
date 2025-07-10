@@ -1,18 +1,20 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
+-- dnot edit ths anymore get some migrations
 CREATE TABLE
     users (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
         username TEXT UNIQUE NOT NULL,
         password_hash TEXT NOT NULL,
         created_at TIMESTAMP NOT NULL DEFAULT now (),
+        path_to_pfp TEXT NOT NULL DEFAULT '/assets/images/goku.jpg',
         updated_at TIMESTAMP NOT NULL DEFAULT now ()
     );
 
 CREATE TABLE
     sessions (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-        user_id UUID REFERENCES users (id),
+        user_id UUID REFERENCES users (id) ON DELETE CASCADE,
         created_at TIMESTAMP NOT NULL DEFAULT now ()
     );
 
@@ -28,12 +30,15 @@ CREATE TABLE
         likes INT4,
         dislikes INT4,
         saves INT4,
-        authorId UUID REFERENCES users (id),
+        authorId UUID REFERENCES users (id) ON DELETE CASCADE,
         -- no dude with the same two playlists
-        UNIQUE (authorName, name)
+        UNIQUE (authorId, name)
     );
 
-CREATE UNIQUE INDEX playlist_idx ON playlists (authorName, name);
+CREATE UNIQUE INDEX playlist_idx ON playlists (authorId, name);
+
+ALTER TABLE users
+ADD COLUMN default_playlist_id UUID NOT NULL REFERENCES playlists (id) ON DELETE CASCADE;
 
 CREATE TABLE
     songs (
@@ -44,22 +49,22 @@ CREATE TABLE
         pictureUrl TEXT,
         songUrl TEXT,
         genre TEXT,
-        likes INT4,
-        dislikes INT4,
         artist TEXT,
         album TEXT,
         description TEXT,
-        authorName TEXT,
-        options JSONB
+        likes INT4,
+        dislikes INT4,
+        options JSONB,
+        authorId UUID REFERENCES users (id) ON DELETE CASCADE
     );
 
-CREATE UNIQUE INDEX song_idx ON songs (authorName, name);
+CREATE UNIQUE INDEX song_idx ON songs (authorId, name);
 
 CREATE TABLE
     song_playlist_rel (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-        song_id UUID REFERENCES songs (id),
-        playlist_id UUID REFERENCES playlists (id)
+        song_id UUID REFERENCES songs (id) ON DELETE CASCADE,
+        playlist_id UUID REFERENCES playlists (id) ON DELETE CASCADE
     );
 
 CREATE UNIQUE INDEX song_playlist_rel_idx ON song_playlist_rel (song_id, playlist_id);

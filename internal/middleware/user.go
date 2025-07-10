@@ -16,18 +16,20 @@ type contextKey string
 const userContextKey = contextKey("user")
 
 // Helper to get user from context
-func UserFromContext(ctx context.Context) (*auth.User, error) {
+func UserFromContext(ctx context.Context) *auth.User {
 	user, ok := ctx.Value(userContextKey).(*auth.User)
 	if !ok {
-		fmt.Println("error here at context")
-		return nil, utils.ErrUnauthorized
+		return nil
 	}
-	return user, nil
+	return user
 }
 
 func getUserIDFromRequest(queries *db.Queries, r *http.Request) (pgtype.UUID, error) {
 	cookie, err := r.Cookie("session_id")
 	if err != nil {
+		if err == http.ErrNoCookie {
+			return pgtype.UUID{}, err
+		}
 		utils.LogError("error at COOKIE:", err)
 		return pgtype.UUID{}, fmt.Errorf("error getting cookie: %w", err)
 	}
@@ -43,6 +45,9 @@ func getUserIDFromRequest(queries *db.Queries, r *http.Request) (pgtype.UUID, er
 func getUserInfoFromSessionId(queries *db.Queries, r *http.Request) (*auth.User, error) {
 	userId, err := getUserIDFromRequest(queries, r)
 	if err != nil {
+		if err == http.ErrNoCookie {
+			return nil, err
+		}
 		utils.LogError("error at userid from request:", err)
 		return nil, fmt.Errorf("%w: %v", utils.ErrUnauthorized, err)
 	}
@@ -76,15 +81,18 @@ func HandlerWithUser(queries *db.Queries, next http.Handler) http.Handler {
 	})
 }
 
-func HandlerWithUserNoRedirect(queries *db.Queries, next http.Handler) http.Handler {
+func WithOptionalUser(queries *db.Queries, next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		user, err := getUserInfoFromSessionId(queries, r)
-		var ctx context.Context
-		if err == nil {
-			ctx = context.WithValue(r.Context(), userContextKey, user)
-		} else {
-			ctx = context.Background()
+
+		if err == nil && user != nil {
+			// Create a new context with the user value
+			ctx := context.WithValue(r.Context(), userContextKey, user)
+			// Serve the next handler with the new context
+			next.ServeHTTP(w, r.WithContext(ctx))
+			return
 		}
-		next.ServeHTTP(w, r.WithContext(ctx))
+
+		next.ServeHTTP(w, r)
 	})
 }

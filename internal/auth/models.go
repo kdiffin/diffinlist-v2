@@ -13,12 +13,12 @@ type Author struct {
 	Username  string
 }
 
-// type UserUI struct {
-// 	PathToPfp string
-// 	Username  string
-// }
+type UserUI struct {
+	PathToPfp string
+	Username  string
+}
 
-// type AuthenticatedPage struct {
-// 	Authorized bool
-// 	User       UserUI
-// }
+type AuthenticatedPage struct {
+	IsAuthorized bool
+	User         UserUI
+}

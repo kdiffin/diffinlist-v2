@@ -1,46 +1,68 @@
 package layout
 
-templ Sidebar() {
+import "diffinlist/internal/auth"
+import "diffinlist/web/views/components/ui"
+
+templ Sidebar(authData auth.AuthenticatedPage) {
 	<aside class="bg-base-300  hidden h-screen w-[12%] min-w-[230px] flex-col items-center b py-4  md:flex">
 		<div class="border-b-2 w-full mb-4 border-base-100">
 			<div class="pb-4 ">
-				<a
-					class="flex items-center justify-center gap-1 text-xl
+				<li>
+					<a
+						class="flex items-center justify-center gap-1 text-xl
           font-semibold text-gray-300 "
-					href="/"
-				>
-					<p class="mb-[3px] ">diffinlist</p>
-				</a>
+						href="/"
+					>
+						<p class="mb-[3px] ">diffinlist</p>
+					</a>
+				</li>
 			</div>
 		</div>
-		<nav class="  subtle-scrollbar  max-h-[80vh]   w-full overflow-y-scroll px-5  space-y-4 ">
-			<a
-				class="flex w-full outline-none outline-neutral-900 items-center gap-2  text-lg text-base-content/70 hover:test-base-content "
-				href="/"
-			>
-				<p>Home</p>
-			</a>
-			<a
-				class="flex w-full outline-none outline-neutral-900 items-center gap-2  text-lg text-base-content/70 hover:test-base-content "
-				href="/search"
-			>
-				<p>Search</p>
-			</a>
-			<a
-				class="
-                    flex w-full outline-none outline-neutral-900 items-center gap-2  text-lg text-base-content/70 hover:test-base-content "
-				href="/login"
-			>
-				<button class=" flex items-center gap-2">Sign in</button>
-			</a>
-			<a
-				class="flex w-full outline-none outline-neutral-900 items-center gap-2  text-lg text-base-content/70 hover:test-base-content "
-				href="/?showSettings=true"
-			>
-				<p>Settings</p>
-			</a>
+		<nav class="  subtle-scrollbar  menu space-y-2 max-h-[80vh]   w-full overflow-y-scroll px-5  menu-lg ">
+			<li>
+				<a
+					class="flex w-full   link  link-hover underline-offset-4 text-base-content/70 hover:text-base-content "
+					href="/"
+				>
+					<p>Home</p>
+				</a>
+			</li>
+			<li>
+				<a
+					class="flex w-full   link  link-hover underline-offset-4 text-base-content/70 hover:text-base-content "
+					href="/search"
+				>
+					<p>Search</p>
+				</a>
+			</li>
+			if !authData.IsAuthorized {
+				<li>
+					<a
+						class="
+                    flex w-full   link  link-hover underline-offset-4 text-base-content/70 hover:text-base-content "
+						href="/login"
+					>
+						Sign in
+					</a>
+				</li>
+			} else {
+				<li>
+					<a class="flex items-center  w-full   link  link-hover underline-offset-4 text-base-content/70 hover:text-base-content  gap-2">
+						@ui.Avatar(authData.User.PathToPfp, authData.User.Username, "")
+						Profile
+					</a>
+				</li>
+				<li>
+					<a
+						class="flex w-full   link  link-hover underline-offset-4 text-base-content/70 hover:text-base-content "
+						href="logout"
+					>
+						Logout
+					</a>
+				</li>
+			}
 			<div class="my-6 w-full  border-t border-t-neutral-800 "></div>
-			<div class=" text-base-content/70  sticky top-0 flex w-full cursor-pointer items-center justify-between py-2  text-lg " type="button" aria-controls="radix-:R6d56:" aria-expanded="false" data-state="closed">
+			<div class=" text-base-content/70 text-lg  sticky top-0 flex w-full cursor-pointer items-center justify-between py-2   " type="button" aria-controls="radix-:R6d56:" aria-expanded="false" data-state="closed">
 				<p>Playlists</p>
 			</div>
 			<div data-state="closed " id="radix-:R6d56:" hidden="" class="mt-4 px-2" style=""></div>

@@ -1,9 +1,12 @@
 package pages
 
-import "diffinlist/web/views/layouts"
+import (
+	"diffinlist/internal/auth"
+	"diffinlist/web/views/layouts"
+)
 
-templ Auth() {
-	@layouts.Base() {
+templ Auth(authData auth.AuthenticatedPage) {
+	@layouts.Base(authData) {
 		<div class=" p-12 flex w-full flex-col h-full justify-center items-center gap-12 ">
 			<div class="text-center  w-full   ">
 				<h1 class="text-5xl font-bold">diffinlist</h1>

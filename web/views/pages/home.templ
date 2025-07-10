@@ -1,9 +1,12 @@
 package pages
 
-import "diffinlist/web/views/layouts"
+import (
+	"diffinlist/internal/auth"
+	"diffinlist/web/views/layouts"
+)
 
-templ Home() {
-	@layouts.Base() {
+templ Home(authData auth.AuthenticatedPage) {
+	@layouts.Base(authData) {
 		<div class="container mx-auto grid grid-cols-12 gap-4 min-h-screen">
 			<div class="col-span-2"></div>
 			<div class="col-span-7"></div>

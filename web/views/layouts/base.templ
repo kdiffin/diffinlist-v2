@@ -1,8 +1,11 @@
 package layouts
 
-import layout "diffinlist/web/views/components/layout"
+import (
+	"diffinlist/internal/auth"
+	layout "diffinlist/web/views/components/layout"
+)
 
-templ Base() {
+templ Base(authData auth.AuthenticatedPage) {
 	<!DOCTYPE html>
 	<html lang="en" data-theme="emerald" class="h-screen">
 		<head>
@@ -13,7 +16,7 @@ templ Base() {
 			<script src="/assets/js/htmx.min.js.gz"></script>
 		</head>
 		<body class="bg-base-100 flex   h-screen flex-row   ">
-			@layout.Sidebar()
+			@layout.Sidebar(authData)
 			<main class="h-screen bg-base-100 overflow-y-auto w-full">
 				{ children... }
 			</main>

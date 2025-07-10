@@ -6,6 +6,8 @@ import (
 	"net/http"
 
 	db "diffinlist/internal/db/generated"
+	"diffinlist/internal/middleware"
+
 	"diffinlist/web"
 	"diffinlist/web/views/pages"
 
@@ -20,17 +22,45 @@ func (s *Server) RegisterRoutes(queries *db.Queries) http.Handler {
 
 	fileServer := http.FileServer(http.FS(web.Files))
 	mux.Handle("/assets/", fileServer)
-	mux.Handle("/login", templ.Handler(pages.Auth()))
-	mux.Handle("/sign-up", templ.Handler(pages.Signup()))
+	mux.Handle("/login", middleware.WithOptionalUser(queries,
+		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			pageData := getPageAuthInfo(r)
+
+			component := pages.Auth(pageData)
+			component.Render(r.Context(), w)
+
+		}),
+	))
+	mux.Handle("/sign-up", middleware.WithOptionalUser(queries,
+		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			pageData := getPageAuthInfo(r)
+			component := pages.Signup(pageData)
+			component.Render(r.Context(), w)
+
+		}),
+	))
 	setupAuthRoutes(mux, queries)
 
 	// mux.Handle("/preferences", templ.Handler(pages.()))
 
-	mux.Handle("/home", templ.Handler(pages.Home()))
+	mux.Handle("/home", middleware.WithOptionalUser(queries,
+		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			pageData := getPageAuthInfo(r)
+
+			component := pages.Home(pageData)
+			component.Render(r.Context(), w)
+		}),
+	))
 	mux.Handle("/test", templ.Handler(pages.TestPage()))
 	mux.Handle("/nav", templ.Handler(pages.Nav()))
 
-	mux.Handle("/{$}", templ.Handler(pages.Index()))
+	mux.Handle("/{$}", middleware.WithOptionalUser(queries,
+		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			pageData := getPageAuthInfo(r)
+			component := pages.Index(pageData)
+			component.Render(r.Context(), w)
+		}),
+	))
 
 	// Wrap the mux with CORS middleware
 	return s.corsMiddleware(mux)

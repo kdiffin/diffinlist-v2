@@ -1,12 +1,13 @@
 package pages
 
 import (
+	"diffinlist/internal/auth"
 	"diffinlist/web/views/components"
 	"diffinlist/web/views/components/ui"
 	"diffinlist/web/views/layouts"
 )
 
-templ Index() {
+templ Index(authData auth.AuthenticatedPage) {
 	{{myPlaylists := []components.Playlist{
 	{
 		ImageURL:     "/assets/images/goku.jpg",
@@ -79,7 +80,7 @@ templ Index() {
 	},
 }
 	}}
-	@layouts.Base() {
+	@layouts.Base(authData) {
 		<div>
 			<div class="bg-base-200 flex   items-center justify-center  px-8 py-14 sm:justify-normal lg:px-14 ">
 				<div class="flex flex-col items-center  sm:flex-row sm:gap-8">

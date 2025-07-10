@@ -1,43 +1,26 @@
 
 
--- name: SignUpAndCreateDefaultVault :exec
+-- name: SignUpAndCreateDefaultPlaylist :exec
 WITH
   new_playlist AS (
     INSERT INTO playlists (name, description)
     VALUES ('default', 'This is your default playlist. you can save songs here.')
     RETURNING id
-  ),
-  new_user AS (
-    INSERT INTO users (username, password_hash, default_vault_id, path_to_pfp)
-    VALUES ($1, $2, (SELECT id FROM new_vault), $3)
-    RETURNING id
   )
-    INSERT INTO vault_user_relations (vault_id, role, user_id)
-    VALUES (
-      (SELECT id FROM new_vault),
-      'owner',
-      (SELECT id FROM new_user)
-    );
+    INSERT INTO users (username, password_hash, default_playlist_id, path_to_pfp)
+    VALUES ($1, $2, (SELECT id FROM new_playlist), $3)
+    RETURNING id;
 
 
--- name: SignUpAndCreateDefaultVaultNoPfp :exec
+-- name: SignUpAndCreateDefaultPlaylistNoPfp :exec
 WITH
-  new_vault AS (
-    INSERT INTO playlists (name, description, kind)
-    VALUES ('Default', 'This is your default vault. Only you can access this.', 'default')
+    new_playlist AS (
+    INSERT INTO playlists (name, description)
+    VALUES ('default', 'This is your default playlist. you can save songs here.')
     RETURNING id
-  ),
-  new_user AS (
-    INSERT INTO users (username, password_hash, default_vault_id)
-    VALUES ($1, $2, (SELECT id FROM new_vault))
-    RETURNING id
-  )
-    INSERT INTO vault_user_relations (vault_id, role, user_id)
-    VALUES (
-      (SELECT id FROM new_vault),
-      'owner',
-      (SELECT id FROM new_user)
-    );
+  ) INSERT INTO users (username, password_hash, default_playlist_id)
+    VALUES ($1, $2, (SELECT id FROM new_playlist))
+    RETURNING id;
 
 -- name: GetUserCredentials :one
 SELECT id, password_hash FROM users WHERE username=$1;
@@ -56,4 +39,4 @@ DELETE FROM sessions WHERE id = $1;
 SELECT id, user_id FROM sessions WHERE id = $1;
 
 -- name: GetUserInfo :one
-SELECT username, path_to_pfp, default_vault_id FROM users WHERE id = $1;
+SELECT username, path_to_pfp, default_playlist_id FROM users WHERE id = $1;

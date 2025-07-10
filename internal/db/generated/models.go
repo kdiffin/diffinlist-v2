@@ -8,16 +8,55 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+type Playlist struct {
+	ID          pgtype.UUID
+	Createdat   pgtype.Timestamp
+	UpdatedAt   pgtype.Timestamp
+	Name        string
+	Description pgtype.Text
+	Genre       pgtype.Text
+	Pictureurl  pgtype.Text
+	Likes       pgtype.Int4
+	Dislikes    pgtype.Int4
+	Saves       pgtype.Int4
+	Authorid    pgtype.UUID
+}
+
 type Session struct {
 	ID        pgtype.UUID
 	UserID    pgtype.UUID
 	CreatedAt pgtype.Timestamp
 }
 
+type Song struct {
+	ID          pgtype.UUID
+	Createdat   pgtype.Timestamp
+	UpdatedAt   pgtype.Timestamp
+	Name        string
+	Pictureurl  pgtype.Text
+	Songurl     pgtype.Text
+	Genre       pgtype.Text
+	Artist      pgtype.Text
+	Album       pgtype.Text
+	Description pgtype.Text
+	Likes       pgtype.Int4
+	Dislikes    pgtype.Int4
+	Options     []byte
+	Authorid    pgtype.UUID
+}
+
+type SongPlaylistRel struct {
+	ID         pgtype.UUID
+	SongID     pgtype.UUID
+	PlaylistID pgtype.UUID
+}
+
 type User struct {
-	ID           pgtype.UUID
-	Username     string
-	PasswordHash string
-	CreatedAt    pgtype.Timestamp
-	UpdatedAt    pgtype.Timestamp
+	ID                pgtype.UUID
+	Username          string
+	PasswordHash      string
+	CreatedAt         pgtype.Timestamp
+	PathToPfp         string
+	UpdatedAt         pgtype.Timestamp
+	DefaultPlaylistID pgtype.UUID
 }

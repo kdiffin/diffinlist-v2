@@ -6,6 +6,9 @@ DROP INDEX IF EXISTS song_idx;
 
 DROP TABLE IF EXISTS songs;
 
+ALTER TABLE users
+DROP default_playlist_id;
+
 DROP INDEX IF EXISTS playlist_idx;
 
 DROP TABLE IF EXISTS playlists;

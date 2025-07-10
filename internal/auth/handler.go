@@ -44,7 +44,7 @@ func HandleSignup(queries *db.Queries, w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
-			err = queries.SignUpAndCreateDefaultVaultNoPfp(r.Context(), db.SignUpAndCreateDefaultVaultNoPfpParams{
+			err = queries.SignUpAndCreateDefaultPlaylistNoPfp(r.Context(), db.SignUpAndCreateDefaultPlaylistNoPfpParams{
 				Username:     username,
 				PasswordHash: hash,
 			})
@@ -101,7 +101,7 @@ func HandleSignup(queries *db.Queries, w http.ResponseWriter, r *http.Request) {
 	}
 
 	pathToPfp := "/pfps/" + newFilename
-	err = queries.SignUpAndCreateDefaultVault(r.Context(), db.SignUpAndCreateDefaultVaultParams{
+	err = queries.SignUpAndCreateDefaultPlaylist(r.Context(), db.SignUpAndCreateDefaultPlaylistParams{
 		Username:     username,
 		PathToPfp:    pathToPfp,
 		PasswordHash: hash,

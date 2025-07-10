@@ -7,28 +7,101 @@ package db
 
 import (
 	"context"
+
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const test = `-- name: test :many
-SELECT id, username, password_hash, created_at, updated_at FROM users
+const createSession = `-- name: CreateSession :exec
+INSERT INTO sessions (id, user_id) VALUES($1,$2)
 `
 
-func (q *Queries) test(ctx context.Context) ([]User, error) {
-	rows, err := q.db.Query(ctx, test)
+type CreateSessionParams struct {
+	ID     pgtype.UUID
+	UserID pgtype.UUID
+}
+
+func (q *Queries) CreateSession(ctx context.Context, arg CreateSessionParams) error {
+	_, err := q.db.Exec(ctx, createSession, arg.ID, arg.UserID)
+	return err
+}
+
+const deleteSession = `-- name: DeleteSession :exec
+DELETE FROM sessions WHERE id = $1
+`
+
+func (q *Queries) DeleteSession(ctx context.Context, id pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, deleteSession, id)
+	return err
+}
+
+const getSessionValues = `-- name: GetSessionValues :one
+SELECT id, user_id FROM sessions WHERE id = $1
+`
+
+type GetSessionValuesRow struct {
+	ID     pgtype.UUID
+	UserID pgtype.UUID
+}
+
+func (q *Queries) GetSessionValues(ctx context.Context, id pgtype.UUID) (GetSessionValuesRow, error) {
+	row := q.db.QueryRow(ctx, getSessionValues, id)
+	var i GetSessionValuesRow
+	err := row.Scan(&i.ID, &i.UserID)
+	return i, err
+}
+
+const getUserCredentials = `-- name: GetUserCredentials :one
+SELECT id, password_hash FROM users WHERE username=$1
+`
+
+type GetUserCredentialsRow struct {
+	ID           pgtype.UUID
+	PasswordHash string
+}
+
+func (q *Queries) GetUserCredentials(ctx context.Context, username string) (GetUserCredentialsRow, error) {
+	row := q.db.QueryRow(ctx, getUserCredentials, username)
+	var i GetUserCredentialsRow
+	err := row.Scan(&i.ID, &i.PasswordHash)
+	return i, err
+}
+
+const getUserInfo = `-- name: GetUserInfo :one
+SELECT username, path_to_pfp, default_playlist_id FROM users WHERE id = $1
+`
+
+type GetUserInfoRow struct {
+	Username          string
+	PathToPfp         string
+	DefaultPlaylistID pgtype.UUID
+}
+
+func (q *Queries) GetUserInfo(ctx context.Context, id pgtype.UUID) (GetUserInfoRow, error) {
+	row := q.db.QueryRow(ctx, getUserInfo, id)
+	var i GetUserInfoRow
+	err := row.Scan(&i.Username, &i.PathToPfp, &i.DefaultPlaylistID)
+	return i, err
+}
+
+const getUsers = `-- name: GetUsers :many
+SELECT username, path_to_pfp  FROM users
+`
+
+type GetUsersRow struct {
+	Username  string
+	PathToPfp string
+}
+
+func (q *Queries) GetUsers(ctx context.Context) ([]GetUsersRow, error) {
+	rows, err := q.db.Query(ctx, getUsers)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []User
+	var items []GetUsersRow
 	for rows.Next() {
-		var i User
-		if err := rows.Scan(
-			&i.ID,
-			&i.Username,
-			&i.PasswordHash,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-		); err != nil {
+		var i GetUsersRow
+		if err := rows.Scan(&i.Username, &i.PathToPfp); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -37,4 +110,48 @@ func (q *Queries) test(ctx context.Context) ([]User, error) {
 		return nil, err
 	}
 	return items, nil
+}
+
+const signUpAndCreateDefaultPlaylist = `-- name: SignUpAndCreateDefaultPlaylist :exec
+WITH
+  new_playlist AS (
+    INSERT INTO playlists (name, description)
+    VALUES ('default', 'This is your default playlist. you can save songs here.')
+    RETURNING id
+  )
+    INSERT INTO users (username, password_hash, default_playlist_id, path_to_pfp)
+    VALUES ($1, $2, (SELECT id FROM new_playlist), $3)
+    RETURNING id
+`
+
+type SignUpAndCreateDefaultPlaylistParams struct {
+	Username     string
+	PasswordHash string
+	PathToPfp    string
+}
+
+func (q *Queries) SignUpAndCreateDefaultPlaylist(ctx context.Context, arg SignUpAndCreateDefaultPlaylistParams) error {
+	_, err := q.db.Exec(ctx, signUpAndCreateDefaultPlaylist, arg.Username, arg.PasswordHash, arg.PathToPfp)
+	return err
+}
+
+const signUpAndCreateDefaultPlaylistNoPfp = `-- name: SignUpAndCreateDefaultPlaylistNoPfp :exec
+WITH
+    new_playlist AS (
+    INSERT INTO playlists (name, description)
+    VALUES ('default', 'This is your default playlist. you can save songs here.')
+    RETURNING id
+  ) INSERT INTO users (username, password_hash, default_playlist_id)
+    VALUES ($1, $2, (SELECT id FROM new_playlist))
+    RETURNING id
+`
+
+type SignUpAndCreateDefaultPlaylistNoPfpParams struct {
+	Username     string
+	PasswordHash string
+}
+
+func (q *Queries) SignUpAndCreateDefaultPlaylistNoPfp(ctx context.Context, arg SignUpAndCreateDefaultPlaylistNoPfpParams) error {
+	_, err := q.db.Exec(ctx, signUpAndCreateDefaultPlaylistNoPfp, arg.Username, arg.PasswordHash)
+	return err
 }
